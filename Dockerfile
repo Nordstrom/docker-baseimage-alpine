@@ -1,4 +1,4 @@
-FROM alpine:3.2
+FROM alpine:3.4
 MAINTAINER Nordstrom Kubernetes Platform Team "techk8s@nordstrom.com"
 
 RUN apk --update upgrade \
