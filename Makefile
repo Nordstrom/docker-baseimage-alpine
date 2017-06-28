@@ -1,6 +1,6 @@
 image_name := baseimage-alpine
 image_registry := quay.io/nordstrom
-image_release := 3.4
+image_release := 3.6
 
 ifdef http_proxy
 build_args := --build-arg http_proxy=$(http_proxy)
