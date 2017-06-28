@@ -5,6 +5,8 @@ image_release := 3.4
 ifdef http_proxy
 build_args := --build-arg http_proxy=$(http_proxy)
 build_args += --build-arg https_proxy=$(http_proxy)
+build_args := --build-arg HTTP_PROXY=$(http_proxy)
+build_args += --build-arg HTTPS_PROXY=$(http_proxy)
 endif
 
 .PHONY: build/image tag/image push/image
