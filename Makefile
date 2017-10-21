@@ -1,21 +1,24 @@
-image_name := baseimage-alpine
-image_registry := quay.io/nordstrom
-image_release := 3.6
+IMAGE_REGISTRY := quay.io/nordstrom
+IMAGE_NAME := baseimage-alpine
+IMAGE_TAG := 3.6
 
 ifdef http_proxy
-build_args := --build-arg http_proxy=$(http_proxy)
-build_args += --build-arg https_proxy=$(http_proxy)
-build_args := --build-arg HTTP_PROXY=$(http_proxy)
-build_args += --build-arg HTTPS_PROXY=$(http_proxy)
+IMAGE_BUILD_ARGS += --build-arg http_proxy=$(http_proxy)
+IMAGE_BUILD_ARGS += --build-arg https_proxy=$(http_proxy)
 endif
 
-.PHONY: build/image tag/image push/image
-
-build/image: Dockerfile $(build_image_prereqs)
-	docker build -t $(image_name) $(build_args) .
-
-tag/image: build/image
-	docker tag $(image_name) $(image_registry)/$(image_name):$(image_release)
-
+.PHONY: push/image
 push/image: tag/image
-	docker push $(image_registry)/$(image_name):$(image_release)
+	docker push $(IMAGE_REGISTRY)/$(IMAGE_NAME):$(IMAGE_TAG)
+
+.PHONY: tag/image
+tag/image: build/image
+	docker tag $(IMAGE_NAME) $(IMAGE_REGISTRY)/$(IMAGE_NAME):$(IMAGE_TAG)
+
+.PHONY: build/image
+build/image: Dockerfile pull/from_image
+	docker build -t $(IMAGE_NAME) $(IMAGE_BUILD_ARGS) .
+
+.PHONY: pull/from_image
+pull/from_image:
+	docker pull alpine:$(IMAGE_TAG)
