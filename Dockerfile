@@ -6,3 +6,5 @@ RUN apk --update upgrade \
       ca-certificates \
       curl \
  && rm -rf /var/cache/apk/*
+
+COPY nordstrom-ca-certs/ /etc/ssl/nordstrom-ca-certificates/
